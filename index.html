@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Facebook Private Video Downloader (5 Minutes made)</h1>
+    <textarea style="width: 80%;margin: auto;border: 2px solid rgb(21, 21, 153);padding: 2px;" onchange="getLinks();return 0;" id="texta" rows="10"></textarea>
+    <p>HD - <a id="hdancor" href="#">#</a></p>
+    <p>SD - <a id="sdancor" href="#">#</a></p>
+    <script>
+        String.prototype.stripSlashes = function(){
+            return this.replace(/\\(.)/mg, "$1");
+        }
+        function getLinks(){
+            var hd,sd;
+            var text = texta.value;
+            var regex = 'playable_url_quality_hd":"([^"]+)"'
+            var matches = text.match(regex)
+            try{
+                hd = matches[1].stripSlashes()
+            }catch(e){
+                console.error(e)
+            }
+            
+            var regex = 'playable_url":"([^"]+)"'
+            var matches = text.match(regex)
+            try{
+                sd = matches[1].stripSlashes()
+            }catch(e){
+                console.error(e)
+            }
+            console.log(hd,sd)
+
+            text = undefined;
+            texta.value = undefined
+            
+            hdancor.href = hd
+            hdancor.innerText = hd.substring(0, Math.min(60,Math.floor(hd.length/3))) + '...'
+            sdancor.href = sd
+            sdancor.innerText = sd.substring(0, Math.min(60,Math.floor(sd.length/3))) + '...'
+        }
+    </script>
+</body>
+</html>
